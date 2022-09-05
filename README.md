@@ -1,11 +1,32 @@
-# kickstarterCloneYoutubePart6
+# Template for a Node RESTful API with Mern
 
 ## Overview
 
-Optional features to make the application more robust and production standard, not necessary for building the basics but worthwhile to develop good practices.
+Create a reusable template that we can use to kickstart any future RESTful API
 
--   Associating projects with users who create them
--   Implement authorization
--   Fix a previous mistake where the Error Handler no longer returns proper error messages
--   Update the Error Handler to catch common error types
-
+Comes with the following features:
+- MongoDB Node RESTful API
+  - Connected to MongoDB
+  - Two Models
+    - Full User Model
+    - Basic Project Model
+      - Projects linked to Users
+  - User Authorization & Authentication
+    - JWT
+  - Custom Error Handler
+- Project Setup
+  - Typescript
+  - Eslint & Prettier Config
+  - Pre Commit Hooks
+  - Postman Collection Starter
+  - Modularized into
+    - Routes
+    - Controllers
+    - Services
+    - Sanitizers
+    - Types
+    - Models
+    - Schema
+    - Middleware
+    - Database
+    - Utils
