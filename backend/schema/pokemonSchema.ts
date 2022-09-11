@@ -1,14 +1,14 @@
 import { Schema } from 'mongoose';
-import { ProjectType } from '../types/projectTypes';
+import { PokemonType } from '../types/PokemonTypes';
 
-export interface IProjectSchema extends ProjectType {
+export interface IPokemonSchema extends PokemonType {
     _id: string;
 }
 
-const projectSchema = new Schema<ProjectType>(
+const PokemonSchema = new Schema<PokemonType>(
     {
         userId: { type: String, required: true },
-        title: {
+        name: {
             type: String,
             required: true,
             unique: true,
@@ -19,4 +19,4 @@ const projectSchema = new Schema<ProjectType>(
     }
 );
 
-export default projectSchema;
+export default PokemonSchema;
