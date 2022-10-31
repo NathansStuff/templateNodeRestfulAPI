@@ -26,10 +26,12 @@ export function ErrorHandler(
         return err;
     }
 
-    return res.status(status).json({
+    const errorResponse = {
         status,
         message,
         error,
         stack: NODE_ENV === 'production' ? '🥞' : err.stack,
-    });
+    };
+
+    res.status(status).json(errorResponse);
 }

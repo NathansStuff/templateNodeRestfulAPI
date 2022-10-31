@@ -1,5 +1,4 @@
 import { Response, Request } from 'express';
-import asyncHandler from 'express-async-handler';
 
 import {
     createUser,
@@ -13,66 +12,66 @@ import {
 // @desc Get all User
 // @route GET /api/User
 // @access Public
-export const getUsersHandler = asyncHandler(
-    async (req: Request, res: Response) => {
-        const users = await getUsers();
-
-        res.status(200).json(users);
-    }
-);
+export async function getUsersHandler(
+    req: Request,
+    res: Response
+): Promise<Response> {
+    const Users = await getUsers();
+    return res.status(200).json(Users);
+}
 
 // @desc Create a new User
 // @route POST /api/User
 // @access Public
-export const createUserHandler = asyncHandler(
-    async (req: Request, res: Response) => {
-        const createdUser = await createUser(req.body);
-
-        res.status(201).json(createdUser);
-    }
-);
+export async function createUserHandler(
+    req: Request,
+    res: Response
+): Promise<void> {
+    const createdUser = await createUser(req.body);
+    res.status(201).json(createdUser);
+}
 
 // @desc Login a User
 // @route POST /api/User/login
 // @access Public
-export const loginUserHandler = asyncHandler(
-    async (req: Request, res: Response) => {
-        const user = await loginUser(req.body.email, req.body.password);
-        res.status(201).json(user);
-    }
-);
+export async function loginUserHandler(
+    req: Request,
+    res: Response
+): Promise<void> {
+    const { email, password } = req.body;
+    const token = await loginUser(email, password);
+    res.status(200).json(token);
+}
 
 // @desc Get a User by id
 // @route GET /api/User/:id
 // @access Public
-export const getUserHandler = asyncHandler(
-    async (req: Request, res: Response) => {
-        const user = await getUserById(req.params.id);
-
-        res.status(200).json(user);
-    }
-);
+export async function getUserHandler(
+    req: Request,
+    res: Response
+): Promise<Response> {
+    const User = await getUserById(req.params.id);
+    return res.status(200).json(User);
+}
 
 // @desc Delete a User by id
 // @route DELETE /api/User/:id
 // @access Private
-export const deleteUserHandler = asyncHandler(
-    async (req: Request, res: Response) => {
-        await deleteUser(req.params.id);
-
-        res.status(200).json({
-            message: `User ${req.params.id} deleted`,
-        });
-    }
-);
+export async function deleteUserHandler(
+    req: Request,
+    res: Response
+): Promise<Response> {
+    const deletedUser = await deleteUser(req.params.id);
+    return res.status(200).json(deletedUser);
+}
 
 // @desc Update a User by id
 // @route PUT /api/User/:id
 // @access Private
-export const updateUserHandler = asyncHandler(
-    async (req: Request, res: Response) => {
-        const user = await updateUser(req.params.id, req.body);
-
-        res.json(user);
-    }
-);
+export async function updateUserHandler(
+    req: Request,
+    res: Response
+): Promise<Response> {
+    const updatedUser = await updateUser(req.params.id, req.body);
+    return res.status(200).json(updatedUser);
+}

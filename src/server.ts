@@ -3,9 +3,9 @@ import * as Colors from 'colors.ts';
 
 import { connectDB } from './database/db';
 import { PORT } from './utils/config';
-import PokemonRoutes from './routes/PokemonRoutes';
-import userRoutes from './routes/userRoutes';
 import { ErrorHandler } from './middleware/Errors/ErrorHandler';
+import apiRoutes from './routes/apiRoutes';
+import { TryCatchMiddleware } from './middleware/TryCatchMiddleware';
 
 Colors.colors('', '');
 
@@ -18,8 +18,7 @@ void db();
 const app = express();
 app.use(express.json());
 
-app.use('/api/pokemon', PokemonRoutes);
-app.use('/api/users', userRoutes);
+app.use('/api', TryCatchMiddleware(apiRoutes));
 
 app.use(ErrorHandler);
 
