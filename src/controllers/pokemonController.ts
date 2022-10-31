@@ -1,6 +1,6 @@
 import { Response, Request } from 'express';
 import asyncHandler from 'express-async-handler';
-import { AuthorizedUserRequest } from '../models/authMiddleware';
+import { AuthorizedUserRequest } from '../middleware/authMiddleware';
 
 import {
     createPokemon,
@@ -16,7 +16,6 @@ import {
 export const getPokemonsHandler = asyncHandler(
     async (req: Request, res: Response) => {
         const Pokemons = await getPokemons();
-
         res.status(200).json(Pokemons);
     }
 );

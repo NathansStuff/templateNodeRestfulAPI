@@ -1,7 +1,7 @@
 import { checkIsValidObjectId } from '../database/db';
+import BadRequestError from '../middleware/Errors/BadRequestError';
 import { emailRegex } from '../schema/userSchema';
 import { UserSanitizerType, UserType } from '../types/userTypes';
-import HttpException from '../utils/httpException';
 
 export async function sanitizeUser(
     users: UserType
@@ -41,10 +41,10 @@ export async function sanitizeLoginUser(
 function sanitizeUsername(username: string): string {
     // Types
     if (username === undefined) {
-        throw new HttpException('Username is undefined', 400);
+        throw new BadRequestError('Username is undefined');
     }
     if (typeof username !== 'string') {
-        throw new HttpException('Username is not a string', 400);
+        throw new BadRequestError('Username is not a string');
     }
 
     // Attributes
@@ -63,22 +63,22 @@ function sanitizeIsAdmin(isAdmin: boolean): boolean {
 function sanitizeEmail(email: string): string {
     // Types
     if (email === undefined) {
-        throw new HttpException('Email is undefined', 400);
+        throw new BadRequestError('Email is undefined');
     }
     if (typeof email !== 'string') {
-        throw new HttpException('Email is not a string', 400);
+        throw new BadRequestError('Email is not a string');
     }
 
     // Attributes
     email = email.trim();
     if (email.length < 6) {
-        throw new HttpException('Email must be at least 6 characters', 400);
+        throw new BadRequestError('Email must be at least 6 characters');
     }
     if (email.length > 50) {
-        throw new HttpException('Email mut be less then 50 characters', 400);
+        throw new BadRequestError('Email mut be less then 50 characters');
     }
     if (email.match(emailRegex) == null) {
-        throw new HttpException('Please add a valid email', 400);
+        throw new BadRequestError('Please add a valid email');
     }
 
     return email;
@@ -87,19 +87,19 @@ function sanitizeEmail(email: string): string {
 async function sanitizePassword(password: string): Promise<string> {
     // Types
     if (password === undefined) {
-        throw new HttpException('Password is undefined', 400);
+        throw new BadRequestError('Password is undefined');
     }
     if (typeof password !== 'string') {
-        throw new HttpException('Password is not a string', 400);
+        throw new BadRequestError('Password is not a string');
     }
 
     // Attributes
     password = password.trim();
     if (password.length < 6) {
-        throw new HttpException('Password must be at least 6 characters', 400);
+        throw new BadRequestError('Password must be at least 6 characters');
     }
     if (password.length > 50) {
-        throw new HttpException('Password mut be less then 50 characters', 400);
+        throw new BadRequestError('Password mut be less then 50 characters');
     }
 
     return password;
@@ -107,7 +107,7 @@ async function sanitizePassword(password: string): Promise<string> {
 
 export function sanitizeId(id: string | undefined): string {
     if (id === undefined) {
-        throw new HttpException('UserId is undefined', 400);
+        throw new BadRequestError('UserId is undefined');
     }
     checkIsValidObjectId(id);
     return id.valueOf(); // "ObjectId('idstring')"

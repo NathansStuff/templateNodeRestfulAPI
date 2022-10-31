@@ -1,10 +1,10 @@
 import { NextFunction, Response, Request } from 'express';
 import asyncHandler from 'express-async-handler';
+import AuthenticationError from './Errors/AuthenticationError';
 
 import { verifyToken } from '../services/tokenService';
 import { getUserById } from '../services/userService';
 import { UserReturnType, UserType } from '../types/userTypes';
-import HttpException from '../utils/httpException';
 
 export interface GetUserAuthInfoRequest extends Request {
     user?: UserType;
@@ -23,7 +23,9 @@ export const protect = asyncHandler(
             req.headers.authorization === undefined ||
             !req.headers.authorization.startsWith('Bearer ')
         ) {
-            throw new HttpException('Unauthorized', 401);
+            throw new AuthenticationError(
+                'Not authorized to access this route'
+            );
         }
 
         const token = req.headers.authorization.split(' ')[1];

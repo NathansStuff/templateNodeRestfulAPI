@@ -1,5 +1,5 @@
 import express from 'express';
-import { protect } from '../models/authMiddleware';
+import { protect } from '../middleware/authMiddleware';
 
 import {
     getPokemonsHandler,

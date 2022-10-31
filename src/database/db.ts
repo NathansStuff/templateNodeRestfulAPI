@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
+import BadRequestError from '../middleware/Errors/BadRequestError';
 import { MONGO_URI } from '../utils/config';
-import HttpException from '../utils/httpException';
 
 export const connectDB = async (): Promise<void> => {
     if (MONGO_URI === '' || MONGO_URI === null) {
@@ -20,6 +20,6 @@ export const connectDB = async (): Promise<void> => {
 
 export function checkIsValidObjectId(id: string): void {
     if (!mongoose.Types.ObjectId.isValid(id)) {
-        throw new HttpException(`${id} is not a valid id`, 400);
+        throw new BadRequestError(`${id} is not a valid id`);
     }
 }

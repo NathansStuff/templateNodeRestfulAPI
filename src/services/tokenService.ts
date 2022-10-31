@@ -1,6 +1,6 @@
 import JWT, { JwtPayload } from 'jsonwebtoken';
+import AuthenticationError from '../middleware/Errors/AuthenticationError';
 import { JWT_SECRET } from '../utils/config';
-import HttpException from '../utils/httpException';
 
 interface UserPayload extends JwtPayload {
     _id: string;
@@ -19,6 +19,6 @@ export function verifyToken(token: string): UserPayload {
     try {
         return JWT.verify(token, JWT_SECRET) as UserPayload;
     } catch (error) {
-        throw new HttpException('Invalid token', 401);
+        throw new AuthenticationError('Invalid token');
     }
 }
