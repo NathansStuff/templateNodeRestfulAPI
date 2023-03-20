@@ -16,7 +16,7 @@ const CourseSchema = new Schema<ICourse>(
       {
         type: Schema.Types.ObjectId,
         ref: 'Topic',
-        required: true,
+        default: [],
       },
     ],
   },
