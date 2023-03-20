@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextFunction, Request, Response } from 'express';
 
-export const TryCatchMiddleware =
-  // @ts-expect-error It's a function that returns a function it has to be typed as any
-  (fn) => (req: Request, res: Response, next: NextFunction) => {
-    Promise.resolve(fn(req, res, next)).catch(next);
+export function TryCatchMiddleware(middlewareFn: any): any {
+  return (req: Request, res: Response, next: NextFunction) => {
+    console.log('TryCatchMiddleware middlewareFn', middlewareFn);
+    Promise.resolve(middlewareFn(req, res, next)).catch(next);
   };
+}

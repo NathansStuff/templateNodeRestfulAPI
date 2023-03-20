@@ -8,12 +8,16 @@ import {
   deleteUserHandler,
 } from '../../controllers/userController';
 import { protect } from '../../middleware/authMiddleware';
+import { TryCatchMiddleware } from '../../middleware/TryCatchMiddleware';
 
 const userRoutes = express.Router();
 
 userRoutes
   .route('/')
-  .get(protect as RequestHandler, getUsersHandler as RequestHandler)
+  .get(
+    TryCatchMiddleware(protect as RequestHandler),
+    getUsersHandler as RequestHandler
+  )
   .post(createUserHandler as RequestHandler);
 userRoutes.route('/login').post(loginUserHandler as RequestHandler);
 userRoutes
