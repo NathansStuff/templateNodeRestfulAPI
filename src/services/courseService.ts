@@ -7,6 +7,7 @@ import {
 } from '../dals/courseDals';
 import { sanitizeCourse } from '../sanitizers/courseSanitizer';
 import { ICourse } from '../types/Learning/ICourse';
+import { deleteTopicsByCourseId } from './topicService';
 
 // Create a new course
 export async function createNewCourse(courseData: ICourse): Promise<ICourse> {
@@ -39,6 +40,10 @@ export async function updateCourse(
 
 // Delete a course by ID
 export async function deleteCourse(courseId: string): Promise<ICourse | null> {
+  // First, delete all associated topics
+  await deleteTopicsByCourseId(courseId);
+
+  // Then, delete the course
   const deletedCourse = await deleteCourseById(courseId);
   return deletedCourse;
 }
