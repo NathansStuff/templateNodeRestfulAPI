@@ -57,3 +57,32 @@ Comes with the following features:
 9. Check isUserAuthorized inside pokemonService.ts line as follows:
    ` if (sanitizedUserId !== PokemonToUpdate.userId) {`
 10. Rename services from eg, deletePokemon to deletePokemon
+
+
+To create a Udemy-like SaaS platform with the added feature of leveraging the ChatGPT API to generate unique content based on users' learning progress, you would need to design a few data models and processes to ensure a smooth user experience. Here's a high-level overview of the data models and the sequence of determining content for a user when they log in:
+
+Data Models:
+
+User Model: Stores user-related information such as name, email, password, and user type (instructor or student).
+
+Course Model: Stores course-related information such as title, description, instructor, categories, and status (published or unpublished).
+
+Topic Model: Stores topic-related information for each course, such as title, description, weight, and course reference.
+
+Progress Model: Stores user progress information, including user reference, course reference, topic reference, score, and completion status.
+
+Progress History Model: Stores a history of user progress over time, including user reference, course reference, topic reference, score, completion status, and timestamp.
+
+Content Model: Stores content-related information for each topic, such as text, images, videos, and other media.
+
+Sequence to Generate Content:
+
+Authenticate the user and fetch their information.
+Fetch the list of courses associated with the user (either enrolled courses for students or created courses for instructors).
+For a selected course, fetch the topics and their associated weights.
+Retrieve the user's progress and progress history for the selected course.
+Determine the topic to focus on based on the user's progress and topic weighting.
+Fetch the content associated with the chosen topic.
+Use the ChatGPT API to generate additional, unique content based on the user's progress, topic, and fetched content.
+Return the generated content to the user.
+By following this high-level approach, you can create a learning platform that tailors content to users' progress, making it more personalized and engaging.

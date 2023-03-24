@@ -1,4 +1,4 @@
-import CourseModel from '../models/courseSchema';
+import CourseModel from '../models/courseModel';
 import { ICourse } from '../types/Learning/ICourse';
 
 // Create a new course

@@ -1,4 +1,4 @@
-import TopicModel from '../models/topicSchema';
+import TopicModel from '../models/topicModel';
 import { ITopic } from '../types/Learning/ITopic';
 
 // Find all topics
