@@ -1,6 +1,6 @@
 import { model } from 'mongoose';
 import CourseSchema from '../schema/courseSchema';
-import { ICourse } from '../types/Learning/ICourse';
+import { ICourse } from '../types/ICourse';
 
 const CourseModel = model<ICourse>('Course', CourseSchema);
 

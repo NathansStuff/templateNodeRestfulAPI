@@ -8,7 +8,7 @@ import {
   findTopicsByCourseId,
 } from '../dals/topicDals';
 import { sanitizeTopic } from '../sanitizers/topicSanitizer';
-import { ITopic } from '../types/Learning/ITopic';
+import { ITopic } from '../types/ITopic';
 
 // Create a new topic
 export async function createNewTopic(topicData: ITopic): Promise<ITopic> {

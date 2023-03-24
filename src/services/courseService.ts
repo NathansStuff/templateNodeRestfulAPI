@@ -6,7 +6,7 @@ import {
   deleteCourseById,
 } from '../dals/courseDals';
 import { sanitizeCourse } from '../sanitizers/courseSanitizer';
-import { ICourse } from '../types/Learning/ICourse';
+import { ICourse } from '../types/ICourse';
 import { deleteTopicsByCourseId } from './topicService';
 
 // Create a new course

@@ -1,5 +1,5 @@
 import ProgressHistoryModel from '../models/progressHistoryModel';
-import { IProgressHistory } from '../types/Learning/IProgressHistory';
+import { IProgressHistory } from '../types/IProgressHistory';
 import { findProgressByUserAndTopic } from './progressDals';
 import { findTopicsByCourseId } from './topicDals';
 

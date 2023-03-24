@@ -1,5 +1,5 @@
 import CourseModel from '../models/courseModel';
-import { ICourse } from '../types/Learning/ICourse';
+import { ICourse } from '../types/ICourse';
 
 // Create a new course
 export async function createCourse(

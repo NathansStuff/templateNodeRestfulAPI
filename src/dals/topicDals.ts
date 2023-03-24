@@ -1,5 +1,5 @@
 import TopicModel from '../models/topicModel';
-import { ITopic } from '../types/Learning/ITopic';
+import { ITopic } from '../types/ITopic';
 
 // Find all topics
 export async function findTopics(): Promise<ITopic[]> {

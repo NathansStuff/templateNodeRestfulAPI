@@ -1,6 +1,6 @@
 import { model } from 'mongoose';
 import TopicSchema from '../schema/topicSchema';
-import { ITopic } from '../types/Learning/ITopic';
+import { ITopic } from '../types/ITopic';
 
 const TopicModel = model<ITopic>('Topic', TopicSchema);
 

@@ -1,5 +1,5 @@
 import { Schema } from 'mongoose';
-import { ITopic } from '../types/Learning/ITopic';
+import { ITopic } from '../types/ITopic';
 
 const TopicSchema = new Schema<ITopic>(
   {

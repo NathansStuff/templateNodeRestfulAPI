@@ -1,5 +1,5 @@
 import { Schema } from 'mongoose';
-import { IProgressHistory } from '../types/Learning/IProgressHistory';
+import { IProgressHistory } from '../types/IProgressHistory';
 
 const ProgressHistorySchema = new Schema<IProgressHistory>(
   {

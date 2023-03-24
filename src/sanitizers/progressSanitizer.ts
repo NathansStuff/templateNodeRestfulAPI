@@ -1,5 +1,5 @@
 import BadRequestError from '../middleware/Errors/BadRequestError';
-import { IProgress } from '../types/Learning/IProgress';
+import { IProgress } from '../types/IProgress';
 
 export function sanitizeProgress(
   progress: Partial<IProgress>,

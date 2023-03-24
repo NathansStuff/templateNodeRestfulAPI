@@ -7,7 +7,7 @@ import {
   deleteProgressById,
 } from '../dals/progressDals';
 import { sanitizeProgress } from '../sanitizers/progressSanitizer';
-import { IProgress } from '../types/Learning/IProgress';
+import { IProgress } from '../types/IProgress';
 
 // Create a new progress entry
 export async function createNewProgress(

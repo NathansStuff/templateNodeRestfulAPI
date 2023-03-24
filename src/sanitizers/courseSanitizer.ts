@@ -1,5 +1,5 @@
 import BadRequestError from '../middleware/Errors/BadRequestError';
-import { ICourse } from '../types/Learning/ICourse';
+import { ICourse } from '../types/ICourse';
 
 export function sanitizeCourse(
   courseData: Partial<ICourse>,

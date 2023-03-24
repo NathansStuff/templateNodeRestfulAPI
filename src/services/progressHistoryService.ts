@@ -7,7 +7,7 @@ import {
   deleteProgressHistoryById,
 } from '../dals/progressHistoryDals';
 import { sanitizeProgressHistory } from '../sanitizers/progressHistorySanitizer';
-import { IProgressHistory } from '../types/Learning/IProgressHistory';
+import { IProgressHistory } from '../types/IProgressHistory';
 
 // Create a new progress history entry
 export async function createNewProgressHistory(

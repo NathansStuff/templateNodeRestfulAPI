@@ -1,5 +1,5 @@
 import BadRequestError from '../middleware/Errors/BadRequestError';
-import { ITopic } from '../types/Learning/ITopic';
+import { ITopic } from '../types/ITopic';
 import mongoose, { ObjectId } from 'mongoose';
 import { sanitizeObjectId } from './sanitizeObjectId';
 

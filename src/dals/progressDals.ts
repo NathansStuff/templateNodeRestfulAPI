@@ -1,6 +1,6 @@
 import ProgressModel from '../models/progressModel';
 import TopicModel from '../models/topicModel';
-import { IProgress } from '../types/Learning/IProgress';
+import { IProgress } from '../types/IProgress';
 import { findTopicsByCourseId } from './topicDals';
 
 // Create a new progress entry
