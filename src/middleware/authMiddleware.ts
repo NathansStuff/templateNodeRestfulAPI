@@ -3,14 +3,15 @@ import AuthenticationError from './Errors/AuthenticationError';
 
 import { verifyToken } from '../services/tokenService';
 import { getUserById } from '../services/userService';
-import { UserReturnType, UserType } from '../types/userTypes';
+import { UserType } from '../types/userTypes';
+import { IUser } from '../types/IUser';
 
 export interface GetUserAuthInfoRequest extends Request {
   user?: UserType;
 }
 
 export interface AuthorizedUserRequest extends Request {
-  user?: UserReturnType;
+  user?: IUser;
 }
 
 export async function protect(
