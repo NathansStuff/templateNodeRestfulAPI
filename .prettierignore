@@ -1,0 +1,16 @@
+.yarn
+.nextdist
+node_modules
+.next
+next-env.d.ts
+sanity/dist
+coverage/
+.eslintrc.json
+.prettierrc
+,vscode/
+bitbucket-pipelines.yml
+cspell.json
+package-lock.json
+package.json
+postcss.config.js
+tsconfig.json
