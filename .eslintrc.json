@@ -1,11 +1,13 @@
 {
+  "parser": "@typescript-eslint/parser",
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended"
   ],
   "plugins": ["unused-imports", "simple-import-sort"],
   "env": {
-    "node": true
+    "node": true,
+     "jest": true
   },
   "settings": {
     "import/parsers": {
@@ -25,6 +27,14 @@
     "@typescript-eslint/explicit-function-return-type": "error",
     "simple-import-sort/imports": "error"
   },
+    "overrides": [
+    {
+      "files": ["*.test.ts"],
+      "rules": {
+        "@typescript-eslint/no-var-requires": "off"
+      }
+    }
+  ],
   "ignorePatterns": [
     "node_modules/",
     "out/",

@@ -1,0 +1,2 @@
+import './colorsConfig';
+import './dotenvConfig';
