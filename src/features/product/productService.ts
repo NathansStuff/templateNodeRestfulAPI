@@ -13,6 +13,12 @@ export async function getProductById(id: string): Promise<IProductModel | null> 
     return Product;
 }
 
+// Get Products by ids
+export async function getProductsByIds(ids: string[]): Promise<IProductModel[]> {
+    const products = await Promise.all(ids.map((id) => getProductById(id)));
+    return products.filter((product) => product !== null) as IProductModel[];
+}
+
 // Create Product
 export async function createNewProduct(Product: IProductModel): Promise<IProductModel> {
     const newProduct = await createProduct(Product);

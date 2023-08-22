@@ -1,17 +1,17 @@
 import { Document } from 'mongoose';
 
-import { ICriteriaGroup } from '@/features/criteriaGroup/ICriteria';
+import { IProductAggregate } from '@/features/product/IProduct';
 
 export interface ILender {
     name: string;
     code: string;
-    criteriaGroupIds: string[];
+    productIds: string[];
 }
 
 export interface ILenderModel extends ILender, Document {}
 
-export interface ILenderWithCriteriaGroups {
+export interface ILenderAggregate {
     name: string;
     code: string;
-    criteriaGroups: ICriteriaGroup[];
+    products: IProductAggregate[];
 }

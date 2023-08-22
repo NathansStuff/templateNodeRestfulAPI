@@ -13,7 +13,7 @@ export const LenderSchema = new Schema<ILender>(
             type: String,
             required: true,
         },
-        criteriaGroupIds: {
+        productIds: {
             type: [String],
             required: false,
         },

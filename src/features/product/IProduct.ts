@@ -9,7 +9,7 @@ export interface IProduct {
 
 export interface IProductModel extends IProduct, Document {}
 
-export interface IProductWithCriteriaGroups {
+export interface IProductAggregate {
     name: string;
     criteriaGroups: ICriteriaGroup[];
 }
