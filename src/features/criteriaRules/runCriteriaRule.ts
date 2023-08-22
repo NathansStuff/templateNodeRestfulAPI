@@ -30,7 +30,7 @@ import { runPurchasePrice } from './purchasePrice/purchasePriceService';
 import { runResidencyStatus } from './residencyStatus/residencyStatusService';
 import { runSaleType } from './saleType/saleTypeService';
 
-export function runRule(rule: IRule, quoteBody: IQuoteService): { passed: boolean; message: string } {
+export function runCriteriaRule(rule: IRule, quoteBody: IQuoteService): { passed: boolean; message: string } {
     const { bestCase } = quoteBody;
     switch (rule.type) {
         // ***** Rules with a 1:1 to payload *****

@@ -13,6 +13,10 @@ export const ProductSchema = new Schema<IProduct>(
             type: [String],
             required: false,
         },
+        financeRateIds: {
+            type: [String],
+            required: false,
+        },
     },
     {
         timestamps: true,

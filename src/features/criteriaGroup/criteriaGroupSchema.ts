@@ -21,6 +21,10 @@ export const CriteriaGroupSchema = new Schema<ICriteriaGroup>(
                     min: Number,
                     max: Number,
                     options: [String],
+                    maxRecord: {
+                        type: Map,
+                        of: Number,
+                    },
                 },
             },
         ],

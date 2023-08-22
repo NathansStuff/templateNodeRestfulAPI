@@ -1,9 +1,12 @@
 import { getCriteriaGroupsByIds } from '@/features/criteriaGroup/criteriaGroupService';
 import { ICriteriaGroup } from '@/features/criteriaGroup/ICriteria';
+import { runCriteriaRule } from '@/features/criteriaRules/runCriteriaRule';
+import { getFinanceRatesByIds } from '@/features/financeRate/financeRateService';
+import { IFinanceRate } from '@/features/financeRate/IFinanceRate';
+import { runFinanceRule } from '@/features/financeRules/runFinanceRule';
 import { ILenderAggregate } from '@/features/lender/ILender';
 import { getLenderByCode } from '@/features/lender/lenderService';
 import { getProductsByIds } from '@/features/product/productService';
-import { runRule } from '@/features/rules/runRules';
 import { IQuoteBody } from '@/types/IQuote';
 import { IQuoteService } from '@/types/IQuoteService';
 
@@ -22,6 +25,7 @@ interface IProductResult {
     name: string;
     passed: boolean;
     message: string[];
+    financeRate?: number;
 }
 
 export async function getQuote(quoteBody: IQuoteBody): Promise<IQuoteResult> {
@@ -42,7 +46,14 @@ async function runLenders(lenders: ILenderAggregate[], quoteBody: IQuoteService)
                 lender.products.map(async (product) => {
                     const result = await runLender(lender, quoteBody);
                     const productResult = result[product.name];
-                    return { name: product.name, passed: productResult.passed, message: productResult.message };
+                    const passed = productResult.passed;
+
+                    if (!passed) return { name: product.name, passed, message: productResult.message };
+
+                    const { financeRate, messages } = getMatchingFinaceRates(product.financeRates, quoteBody);
+                    productResult.message = productResult.message.concat(messages);
+
+                    return { name: product.name, passed, message: productResult.message, financeRate };
                 })
             );
 
@@ -53,6 +64,22 @@ async function runLenders(lenders: ILenderAggregate[], quoteBody: IQuoteService)
             };
         })
     );
+}
+
+function getMatchingFinaceRates(
+    financeRates: IFinanceRate[],
+    quoteBody: IQuoteService
+): { financeRate: number; messages: string[] } {
+    let overallRate = 0;
+    let overallMessages: string[] = [];
+
+    for (const financeRate of financeRates) {
+        const { message, value } = runFinanceRule(financeRate, quoteBody);
+        if (value) overallRate += value;
+        overallMessages = overallMessages.concat(message);
+    }
+
+    return { financeRate: overallRate, messages: overallMessages };
 }
 
 async function runLender(
@@ -88,7 +115,8 @@ async function getQuoteLenders(lenderCodes: string[]): Promise<ILenderAggregate[
         const productsArray = await Promise.all(
             products.map(async (product) => {
                 const criteriaGroups = await getCriteriaGroupsByIds(product.criteriaGroupIds);
-                return { name: product.name, criteriaGroups };
+                const financeRates = await getFinanceRatesByIds(product.financeRateIds);
+                return { name: product.name, criteriaGroups, financeRates };
             })
         );
 
@@ -106,7 +134,7 @@ function runCriteriaGroups(criteria: ICriteriaGroup, quoteBody: IQuoteService): 
     }
 
     criteria.rules.forEach((rule) => {
-        const { passed, message } = runRule(rule, quoteBody);
+        const { passed, message } = runCriteriaRule(rule, quoteBody);
         criteriaPassed = criteriaPassed && passed;
         criteriaGroupMessage.push(message);
     });
