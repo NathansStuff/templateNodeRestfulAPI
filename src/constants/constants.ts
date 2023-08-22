@@ -1,5 +1,7 @@
 import assert from 'assert';
 
+console.log('process.env.PORT', process.env.PORT);
+
 assert.ok(process.env.PORT, 'PORT is not defined in .env file');
 export const PORT = process.env.PORT;
 

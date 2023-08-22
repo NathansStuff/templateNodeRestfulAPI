@@ -52,7 +52,7 @@
               ["^\\.\\.(?!/?$)", "^\\.\\./?$"],
               // Imports starting with `./`
               ["^\\./(?=.*/)(?!/?$)", "^\\.(?!/?$)", "^\\./?$"],
-              // Style imports
+              // Relative imports
               ["^.+\\.s?css$"],
               // Side effect imports
               ["^\\u0000"]

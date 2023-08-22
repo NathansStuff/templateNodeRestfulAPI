@@ -1,4 +1,4 @@
-import { ESaleType } from '@/features/rules/saleType/ISaleType';
+import { ESaleType } from './enums/ESaleType';
 
 export interface IQuoteBody {
     lenderCodes: string[];

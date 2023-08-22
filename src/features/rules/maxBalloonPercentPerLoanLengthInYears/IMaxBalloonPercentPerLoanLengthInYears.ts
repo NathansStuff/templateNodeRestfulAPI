@@ -1,7 +1,7 @@
 import { ECriteriaType } from '@/types/enums/ECriteriaType';
-import { EYears } from '@/types/EYears';
+import { EYears } from '@/types/enums/EYears';
 
 export interface IMaxBalloonPercentPerLoanPercentInYears {
-    type: ECriteriaType.ACCEPTED_OPTIONS;
+    type: ECriteriaType.OPTION_DEPENDENT_MAX;
     maxRecord?: Record<EYears, number>;
 }

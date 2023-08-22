@@ -1,7 +1,7 @@
 import { Schema } from 'mongoose';
 
 import { ECriteriaType } from '@/types/enums/ECriteriaType';
-import { ERuleOptions } from '@/types/ERuleOptions';
+import { ERuleOptions } from '@/types/enums/ERuleOptions';
 
 import { ICriteriaGroup } from './ICriteria';
 
