@@ -10,7 +10,6 @@ export function TryCatchMiddleware(middlewareFn: MiddlewareFunction): Middleware
             await middlewareFn(req, res, next);
         } catch (error) {
             if (error instanceof CustomError) {
-                console.log('trye');
                 res.status(error.statusCode).json({ status: error.status, error: error.message });
             } else if (error instanceof Error) {
                 res.status(500).json({ message: `Internal error. Error: ${error.message}` });

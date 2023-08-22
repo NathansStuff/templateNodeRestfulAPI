@@ -1,0 +1,9 @@
+export enum EYears {
+    ONE_YEAR = 'ONE_YEAR',
+    TWO_YEARS = 'TWO_YEARS',
+    THREE_YEARS = 'THREE_YEARS',
+    FOUR_YEARS = 'FOUR_YEARS',
+    FIVE_YEARS = 'FIVE_YEARS',
+    SIX_YEARS = 'SIX_YEARS',
+    SEVEN_YEARS = 'SEVEN_YEARS',
+}

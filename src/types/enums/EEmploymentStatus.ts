@@ -1,0 +1,7 @@
+export enum EEmploymentStatus {
+    FULL_TIME = 'FULL_TIME',
+    PART_TIME = 'PART_TIME',
+    CASUAL = 'CASUAL',
+    SELF_EMPLOYED = 'SELF_EMPLOYED',
+    GOVERNMENT_BENEFITS = 'GOVERNMENT_BENEFITS',
+}

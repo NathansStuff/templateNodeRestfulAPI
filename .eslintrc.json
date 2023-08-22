@@ -22,6 +22,7 @@
   },
   "rules": {
     "unused-imports/no-unused-imports": "error",
+    "no-restricted-imports": ["error", { "patterns": ["../*/*"] }],
     "semi": "error",
     "no-undef": "error",
     "@typescript-eslint/explicit-function-return-type": "error",
@@ -32,6 +33,32 @@
       "files": ["*.test.ts"],
       "rules": {
         "@typescript-eslint/no-var-requires": "off"
+      }
+    },
+     {
+      "files": ["**/*.js", "**/*.ts", "**/*.tsx"],
+      "rules": {
+        "simple-import-sort/imports": [
+          "error",
+          {
+            "groups": [
+              // `react` first, `next` second, then packages starting with a character
+              ["^react$", "^next", "^[a-z]"],
+              // Packages starting with `@`
+              ["^@"],
+              // Packages starting with `~`
+              ["^~"],
+              // Imports starting with `../`
+              ["^\\.\\.(?!/?$)", "^\\.\\./?$"],
+              // Imports starting with `./`
+              ["^\\./(?=.*/)(?!/?$)", "^\\.(?!/?$)", "^\\./?$"],
+              // Style imports
+              ["^.+\\.s?css$"],
+              // Side effect imports
+              ["^\\u0000"]
+            ]
+          }
+        ]
       }
     }
   ],

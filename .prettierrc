@@ -10,8 +10,5 @@
 "parser": "typescript",
 "endOfLine": "lf",
 "singleAttributePerLine": true,
-"jsxSingleQuote": true,
- "rules": {
-          "unused-imports": "error"
-        }
+"jsxSingleQuote": true
 }
