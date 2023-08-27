@@ -13,10 +13,14 @@ export const ProductSchema = new Schema<IProduct>(
             type: [String],
             required: false,
         },
-        financeRateIds: {
+        ratePolicyIds: {
             type: [String],
             required: false,
         },
+        submissionRequirementIds: {
+            type: [String],
+            required: false,
+        }
     },
     {
         timestamps: true,

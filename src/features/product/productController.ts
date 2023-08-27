@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 
-import { createNewProduct, deleteProduct, getAllProducts, getProductById, updateProduct } from './productService';
+import { createNewProduct, deleteProduct, getAllProducts, getProductById, getProductsByIds, updateProduct } from './productService';
 
 // Get all Products
 export async function getAllProductsHandler(req: Request, res: Response): Promise<void> {
@@ -16,6 +16,19 @@ export async function getProductByIdHandler(req: Request, res: Response): Promis
         res.status(200).json(Product);
     } else {
         res.status(404).json({ error: 'Product not found' });
+    }
+}
+
+// Get Product by id
+export async function getProductsByIdHandler(req: Request, res: Response): Promise<void> {
+    console.log('getProductsByIdHandler()');
+    const { ids } = req.body;
+    console.log('ids', ids);
+    const Products = await getProductsByIds(ids);
+    if (Products) {
+        res.status(200).json(Products);
+    } else {
+        res.status(404).json({ error: 'Products not found' });
     }
 }
 

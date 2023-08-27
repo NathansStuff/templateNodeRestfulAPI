@@ -3,9 +3,9 @@ import { Schema } from 'mongoose';
 import { ECriteriaType } from '@/types/enums/ECriteriaType';
 import { ERuleOptions } from '@/types/enums/ERuleOptions';
 
-import { IFinanceRate } from './IFinanceRate';
+import { IRatePolicy } from './IRatePolicy';
 
-export const FinanceRateSchema = new Schema<IFinanceRate>(
+export const RatePolicySchema = new Schema<IRatePolicy>(
     {
         name: {
             type: String,

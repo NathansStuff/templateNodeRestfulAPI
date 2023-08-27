@@ -1,11 +1,11 @@
 import { BadRequestError } from '@/exceptions/BadRequestError';
-import { IFinanceRate } from '@/features/financeRate/IFinanceRate';
+import { IRatePolicy } from '@/features/ratePolicy/IRatePolicy';
 import { ECriteriaType } from '@/types/enums/ECriteriaType';
 import { EFinanceType } from '@/types/enums/EFinanceType';
 import { isAcceptedOption } from '@/utils/ruleUtils/isAcceptedOption';
 
 export function runFRFinanceType(
-    criteria: IFinanceRate,
+    criteria: IRatePolicy,
     financeType: EFinanceType | undefined
 ): {
     message: string;

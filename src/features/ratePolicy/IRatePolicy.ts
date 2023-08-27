@@ -3,15 +3,15 @@ import { Document } from 'mongoose';
 import { ECriteriaType } from '@/types/enums/ECriteriaType';
 import { ERuleOptions } from '@/types/enums/ERuleOptions';
 
-export interface IFinanceRate {
+export interface IRatePolicy {
     name: string;
     rule: {
         type: ERuleOptions;
-        criteria: IFinanceRateCriteria;
+        criteria: IRatePolicyCriteria;
     };
 }
 
-export interface IFinanceRateCriteria {
+export interface IRatePolicyCriteria {
     type: ECriteriaType;
     min?: number;
     max?: number;
@@ -20,4 +20,4 @@ export interface IFinanceRateCriteria {
     options?: string[];
 }
 
-export interface IFinanceRateModel extends IFinanceRate, Document {}
+export interface IRatePolicyModel extends IRatePolicy, Document {}

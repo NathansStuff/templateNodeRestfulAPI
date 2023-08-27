@@ -1,11 +1,11 @@
-import { IFinanceRate } from '@/features/financeRate/IFinanceRate';
+import { IRatePolicy } from '@/features/ratePolicy/IRatePolicy';
 import { ERuleOptions } from '@/types/enums/ERuleOptions';
 import { IQuoteService } from '@/types/IQuoteService';
 
 import { runFRFinanceType } from './frFinanceType/frFinanceType';
 
 export function runFinanceRule(
-    rule: IFinanceRate,
+    rule: IRatePolicy,
     quoteBody: IQuoteService
 ): {
     message: string;
