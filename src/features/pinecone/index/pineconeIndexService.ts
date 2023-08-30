@@ -5,6 +5,7 @@ import {
 } from '@pinecone-database/pinecone/dist/pinecone-generated-ts-fetch';
 
 import { getPineconeClient } from '../pineconeConnect';
+import { mockVector } from '../vector/mockVector';
 
 export async function getIndexes(): Promise<string[]> {
     const pinecone = await getPineconeClient();
@@ -68,12 +69,29 @@ export async function queryIndex(indexName: string, vector: number[]): Promise<Q
     const pinecone = await getPineconeClient();
     const hardCodedIndexName = 'test-index';
     const index = pinecone.Index(hardCodedIndexName);
+    //   queryRequest: {
+    //     namespace: "example-namespace",
+    //     topK: 10,
+    //     filter: {
+    //       genre: { $in: ["comedy", "documentary", "drama"] },
+    //     },
+    //     includeValues: true,
+    //     includeMetadata: true,
+    //     vector: [0.1, 0.2, 0.3, 0.4],
+    //   },
+
+    if (!vector || vector?.length === 0) {
+        vector = mockVector;
+    }
 
     const queryRequest = {
         vector,
         topK: 10,
         includeValues: true,
         includeMetadata: true,
+        filter: {
+            // genre: { $in: ['comedy', 'documentary', 'drama'] },
+        },
     };
     const queryResponse = await index.query({ queryRequest });
 

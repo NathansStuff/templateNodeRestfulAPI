@@ -1,21 +1,25 @@
+import { UpsertRequest } from '@pinecone-database/pinecone';
+import { UpsertResponse } from '@pinecone-database/pinecone/dist/pinecone-generated-ts-fetch';
+
 import { getPineconeClient } from '../pineconeConnect';
 
-import { mockVector } from './mockVector';
-
 // note: cannot create vector
-export async function upsertVector(indexName: string): Promise<any> {
+export async function upsertVector(upsertRequest: UpsertRequest): Promise<UpsertResponse> {
     const hardcoded = 'test-index';
     const pinecone = await getPineconeClient();
     const index = pinecone.Index(hardcoded);
-    const upsertRequest = {
-        vectors: [
-            {
-                id: 'vec1',
-                values: mockVector,
-            },
-        ],
-        namespace: 'example-namespace',
-    };
+    // const upsertRequest = {
+    //     vectors: [
+    //         {
+    //             id: 'vec1',
+    //             values: mockVector,
+    //             metadata: {
+    //                 genre: 'drama',
+    //             },
+    //         },
+    //     ],
+    // namespace: 'example-namespace',
+    // };
 
     const upsertReponse = await index.upsert({ upsertRequest });
 

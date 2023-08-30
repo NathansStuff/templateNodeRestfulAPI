@@ -3,7 +3,19 @@ import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter';
 
 import { OPENAI_API_KEY } from '@/constants';
 
-export async function chunkData(text: string, chunkSize = 2000, chunkOverlap = 100): Promise<unknown> {
+type Chunk = {
+    pageContent: string;
+    metadata: {
+        loc: {
+            lines: {
+                from: number;
+                to: number;
+            };
+        };
+    };
+};
+
+export async function chunkData(text: string, chunkSize = 2000, chunkOverlap = 100): Promise<Chunk[]> {
     const splitter = new RecursiveCharacterTextSplitter({
         chunkSize,
         chunkOverlap,
@@ -11,7 +23,7 @@ export async function chunkData(text: string, chunkSize = 2000, chunkOverlap = 1
 
     const output = await splitter.createDocuments([text]);
 
-    return output;
+    return output as unknown as Chunk[];
 }
 
 export function createOpenaiEmbeddings(): OpenAIEmbeddings {
