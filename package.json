@@ -23,7 +23,9 @@
     "express": "^4.18.2",
     "jest-snapshot": "^29.6.2",
     "langchain": "^0.0.135",
-    "mongoose": "^7.4.3"
+    "mongodb": "^6.0.0",
+    "mongoose": "^7.4.3",
+    "zod": "^3.22.2"
   },
   "devDependencies": {
     "@pinecone-database/pinecone": "^0.1.6",
