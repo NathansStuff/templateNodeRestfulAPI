@@ -34,3 +34,9 @@ export function createOpenaiEmbeddings(): OpenAIEmbeddings {
 
     return embeddings;
 }
+
+export async function embedOpenaiQuery(query: string): Promise<number[]> {
+    const embeddings = createOpenaiEmbeddings();
+
+    return await embeddings.embedQuery(query);
+}
