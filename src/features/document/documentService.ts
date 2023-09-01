@@ -1,3 +1,5 @@
+import { findInfoById } from '@/features/info/infoDal';
+
 import {
     createDocument,
     deleteDocumentById,
@@ -5,7 +7,7 @@ import {
     findDocumentById,
     updateDocumentById,
 } from './documentDal';
-import { Document, DocumentWithId } from './documentType';
+import { Document, DocumentWithId, DocumentWithInfoIds } from './documentType';
 
 // Get all Documents
 export async function getAllDocuments(): Promise<DocumentWithId[]> {
@@ -35,4 +37,24 @@ export async function updateDocument(id: string, updatedData: Partial<Document>)
 export async function deleteDocument(id: string): Promise<void | null> {
     const response = await deleteDocumentById(id);
     return response;
+}
+
+// Get Document and all its Info
+export async function getInfosByDocumentId(documentId: string): Promise<DocumentWithInfoIds | null> {
+    const document = await getDocumentById(documentId);
+
+    if (!document) {
+        return null; // Document not found
+    }
+
+    const associatedInfoIds = document.infoIds;
+
+    // Fetch and return only the info objects associated with the document
+    const associatedInfos = await Promise.all(associatedInfoIds.map((infoId) => findInfoById(infoId)));
+
+    return {
+        name: document.name,
+        namespace: document.namespace,
+        infoIds: associatedInfos,
+    };
 }

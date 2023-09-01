@@ -3,8 +3,15 @@ import { Request, Response } from 'express';
 import { BadRequestError } from '@/exceptions/BadRequestError';
 import { ParamsWithId } from '@/types/ParamsWithId';
 
-import { createNewDocument, deleteDocument, getAllDocuments, getDocumentById, updateDocument } from './documentService';
-import { Document, DocumentWithId } from './documentType';
+import {
+    createNewDocument,
+    deleteDocument,
+    getAllDocuments,
+    getDocumentById,
+    getInfosByDocumentId,
+    updateDocument,
+} from './documentService';
+import { Document, DocumentWithId, DocumentWithInfoIds } from './documentType';
 
 // Get all Documents
 export async function getAllDocumentsHandler(req: Request, res: Response<DocumentWithId[]>): Promise<void> {
@@ -60,4 +67,16 @@ export async function deleteDocumentHandler(
     if (response === null) throw new BadRequestError('Document not found');
     const message = `Document with id ${safeId.id} deleted`;
     res.status(204).json({ message });
+}
+
+// Get Document and all its Info
+export async function getInfosByDocumentIdHandler(
+    req: Request<ParamsWithId, DocumentWithInfoIds, object>,
+    res: Response<DocumentWithInfoIds | null>
+): Promise<void> {
+    const safeId = ParamsWithId.parse(req.params);
+    const response = await getInfosByDocumentId(safeId.id);
+    if (!response) throw new BadRequestError('Document not found');
+
+    res.status(200).json(response);
 }
