@@ -23,6 +23,10 @@ export const InfoSchema = new Schema<InfoWithId>(
                 required: true,
             },
         },
+        savedInPinecone: {
+            type: Boolean,
+            required: true,
+        },
         namespace: {
             type: String,
             required: true,

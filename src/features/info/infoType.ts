@@ -9,6 +9,7 @@ export const Info = z.object({
         pageNumber: z.number(),
     }),
     namespace: z.string(),
+    savedInPinecone: z.boolean().default(false),
 });
 
 export type Info = z.infer<typeof Info>;
