@@ -8,12 +8,12 @@ export async function getIndexesHandler(req: Request, res: Response): Promise<vo
 }
 
 export async function getIndexHandler(req: Request, res: Response): Promise<void> {
-    const indexes = await getIndex(req.params.indexName);
+    const indexes = await getIndex();
     res.status(200).json(indexes);
 }
 
 export async function deleteIndexHandler(req: Request, res: Response): Promise<void> {
-    const indexes = await deleteIndex(req.params.indexName);
+    const indexes = await deleteIndex();
     res.status(200).json(indexes);
 }
 
@@ -24,7 +24,7 @@ export async function createIndexHandler(req: Request, res: Response): Promise<v
 }
 
 export async function queryIndexHandler(req: Request, res: Response): Promise<void> {
-    const { indexName, vector } = req.body;
-    const indexes = await queryIndex(indexName, vector);
+    const { vector } = req.body;
+    const indexes = await queryIndex(vector);
     res.status(200).json(indexes);
 }

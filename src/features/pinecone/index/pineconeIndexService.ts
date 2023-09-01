@@ -1,3 +1,4 @@
+import { PINECONE_DEFAULT_INDEX_NAME, PINECONE_DEFAULT_NAMESPACE } from '@/constants';
 import { IndexMeta } from '@pinecone-database/pinecone';
 import {
     DescribeIndexStatsResponse,
@@ -5,7 +6,6 @@ import {
 } from '@pinecone-database/pinecone/dist/pinecone-generated-ts-fetch';
 
 import { getPineconeClient } from '../pineconeConnect';
-import { mockVector } from '../vector/mockVector';
 
 export async function getIndexes(): Promise<string[]> {
     const pinecone = await getPineconeClient();
@@ -29,15 +29,14 @@ export async function createIndex(indexName: string, dimension: number): Promise
     return `Index ${indexName} created`;
 }
 
-export async function getIndex(
-    indexName: string
-): Promise<{ IndexMeta: IndexMeta; DescribeIndexStatsResponse: DescribeIndexStatsResponse }> {
-    const hardCodedIndexName = 'test-index';
-    console.log('indexName', indexName);
+export async function getIndex(): Promise<{
+    IndexMeta: IndexMeta;
+    DescribeIndexStatsResponse: DescribeIndexStatsResponse;
+}> {
     const pinecone = await getPineconeClient();
 
-    const indexDescription = await describeIndex(hardCodedIndexName);
-    const index = pinecone.Index(hardCodedIndexName);
+    const indexDescription = await describeIndex();
+    const index = pinecone.Index(PINECONE_DEFAULT_INDEX_NAME);
     const indexStats = await index.describeIndexStats({
         describeIndexStatsRequest: {
             filter: {},
@@ -49,40 +48,25 @@ export async function getIndex(
     };
 }
 
-export async function deleteIndex(indexName: string): Promise<string> {
+export async function deleteIndex(): Promise<string> {
     const pinecone = await getPineconeClient();
     return await pinecone.deleteIndex({
-        indexName,
+        indexName: PINECONE_DEFAULT_INDEX_NAME,
     });
 }
 
-export async function describeIndex(indexName: string): Promise<IndexMeta> {
+export async function describeIndex(): Promise<IndexMeta> {
     const pinecone = await getPineconeClient();
     const response = await pinecone.describeIndex({
-        indexName: indexName,
+        indexName: PINECONE_DEFAULT_INDEX_NAME,
     });
 
     return response;
 }
 
-export async function queryIndex(indexName: string, vector: number[]): Promise<QueryResponse> {
+export async function queryIndex(vector: number[], namespace?: string): Promise<QueryResponse> {
     const pinecone = await getPineconeClient();
-    const hardCodedIndexName = 'test-index';
-    const index = pinecone.Index(hardCodedIndexName);
-    //   queryRequest: {
-    //     namespace: "example-namespace",
-    //     topK: 10,
-    //     filter: {
-    //       genre: { $in: ["comedy", "documentary", "drama"] },
-    //     },
-    //     includeValues: true,
-    //     includeMetadata: true,
-    //     vector: [0.1, 0.2, 0.3, 0.4],
-    //   },
-
-    if (!vector || vector?.length === 0) {
-        vector = mockVector;
-    }
+    const index = pinecone.Index(PINECONE_DEFAULT_INDEX_NAME);
 
     const queryRequest = {
         vector,
@@ -90,8 +74,9 @@ export async function queryIndex(indexName: string, vector: number[]): Promise<Q
         includeValues: true,
         includeMetadata: true,
         filter: {
-            // genre: { $in: ['comedy', 'documentary', 'drama'] },
+            // metadata
         },
+        namespace: namespace || PINECONE_DEFAULT_NAMESPACE,
     };
     const queryResponse = await index.query({ queryRequest });
 

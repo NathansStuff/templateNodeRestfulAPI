@@ -11,7 +11,7 @@ async function saveInfoToPinecone(info: Info): Promise<void> {
     const vector = {
         id: info.id,
         values: embed,
-        metadata: info.metadata,
+        metadata: { ...info.metadata, text: info.text },
     };
 
     const vectorRequest: UpsertRequest = {

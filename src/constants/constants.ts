@@ -24,3 +24,6 @@ export const PINECONE_ENV = process.env.PINECONE_ENV;
 
 assert.ok(process.env.PINECONE_DEFAULT_INDEX_NAME, 'PINECONE_DEFAULT_INDEX_NAME is not defined in .env file');
 export const PINECONE_DEFAULT_INDEX_NAME = process.env.PINECONE_DEFAULT_INDEX_NAME;
+
+assert.ok(process.env.PINECONE_DEFAULT_NAMESPACE, 'PINECONE_DEFAULT_NAMESPACE is not defined in .env file');
+export const PINECONE_DEFAULT_NAMESPACE = process.env.PINECONE_DEFAULT_NAMESPACE;
