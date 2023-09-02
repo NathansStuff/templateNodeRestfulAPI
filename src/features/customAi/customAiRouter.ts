@@ -2,10 +2,10 @@ import express from 'express';
 
 import { TryCatchMiddleware } from '@/middleware/TryCatchMiddleware';
 
-import { customAiQueryHandler } from './customAiController';
+import { findInfoForQueryHandler } from './customAiController';
 
 const CustomAiRouter = express.Router();
 
-CustomAiRouter.post('/query', TryCatchMiddleware(customAiQueryHandler));
+CustomAiRouter.post('/findInfo', TryCatchMiddleware(findInfoForQueryHandler));
 
 export { CustomAiRouter };

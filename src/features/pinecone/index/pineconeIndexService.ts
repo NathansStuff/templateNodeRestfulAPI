@@ -3,6 +3,7 @@ import { IndexMeta } from '@pinecone-database/pinecone';
 import {
     DescribeIndexStatsResponse,
     QueryResponse,
+    VectorOperationsApi,
 } from '@pinecone-database/pinecone/dist/pinecone-generated-ts-fetch';
 
 import { getPineconeClient } from '../pineconeConnect';
@@ -46,6 +47,12 @@ export async function getIndex(): Promise<{
         IndexMeta: indexDescription,
         DescribeIndexStatsResponse: indexStats,
     };
+}
+
+export async function returnIndex(): Promise<VectorOperationsApi> {
+    const pinecone = await getPineconeClient();
+    const index = pinecone.Index(PINECONE_DEFAULT_INDEX_NAME);
+    return index;
 }
 
 export async function deleteIndex(): Promise<string> {

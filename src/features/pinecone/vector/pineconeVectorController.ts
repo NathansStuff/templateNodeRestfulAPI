@@ -1,6 +1,9 @@
 import { Request, Response } from 'express';
 
+import { UpsertResponse } from '@pinecone-database/pinecone/dist/pinecone-generated-ts-fetch';
+
 import { deleteVectors, embedAndUpsertVectors, getVectors, upsertVector } from './pineconeVectorService';
+import { EmbedAndUpsertVectorsRequestType } from './vectorType';
 
 export async function upsertVectorHandler(req: Request, res: Response): Promise<void> {
     const indexes = await upsertVector(req.body);
@@ -17,7 +20,12 @@ export async function deleteVectorsHandler(req: Request, res: Response): Promise
     res.status(200).json({ vectorResponse: indexes, success: true });
 }
 
-export async function embedAndUpsertVectorsHandler(req: Request, res: Response): Promise<void> {
-    const indexes = await embedAndUpsertVectors(req.body.vectors, req.body.namespace);
-    res.status(200).json({ vectorResponse: indexes, success: true });
+export async function embedAndUpsertVectorsHandler(
+    req: Request<object, UpsertResponse, EmbedAndUpsertVectorsRequestType>,
+    res: Response<UpsertResponse>
+): Promise<void> {
+    const safeBody = EmbedAndUpsertVectorsRequestType.parse(req.body);
+    const { vectors, namespace } = safeBody;
+    const indexes = await embedAndUpsertVectors(vectors, namespace);
+    res.status(200).json(indexes);
 }

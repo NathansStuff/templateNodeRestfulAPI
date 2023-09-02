@@ -1,7 +1,7 @@
 import { createOpenaiEmbeddings } from '@/features/langchain/langchainService';
 import { queryIndex } from '@/features/pinecone/index/pineconeIndexService';
 
-export async function queryAi(question: string, namespace?: string): Promise<any> {
+export async function findInfoForQuery(question: string, namespace?: string): Promise<any> {
     const embeddings = createOpenaiEmbeddings();
     const vector = await embeddings.embedQuery(question);
     const response = await queryIndex(vector, namespace);

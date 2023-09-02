@@ -1,5 +1,6 @@
 import { PINECONE_DEFAULT_INDEX_NAME } from '@/constants';
 import { embedOpenaiQuery } from '@/features/langchain/langchainService';
+import { returnIndex } from '@/features/pinecone/index/pineconeIndexService';
 import {
     FetchResponse,
     UpsertRequest,
@@ -7,6 +8,8 @@ import {
 } from '@pinecone-database/pinecone/dist/pinecone-generated-ts-fetch';
 
 import { getPineconeClient } from '../pineconeConnect';
+
+import { NamespaceType, VectorEmbedRequestType, VectorType } from './vectorType';
 
 // note: cannot create vector
 export async function upsertVector(upsertRequest: UpsertRequest): Promise<UpsertResponse> {
@@ -18,39 +21,37 @@ export async function upsertVector(upsertRequest: UpsertRequest): Promise<Upsert
     return upsertReponse;
 }
 
-export async function embedAndUpsertVectors(vectors: any, namespace?: string): Promise<UpsertResponse> {
-    const upsertRequests: any[] = [];
+export async function embedAndUpsertVectors(
+    vectors: VectorEmbedRequestType[],
+    namespace: NamespaceType
+): Promise<UpsertResponse> {
+    const upsertRequests: VectorType[] = [];
+    // Get embeddings for each vector
     await Promise.all(
-        vectors.map(async (vector: any) => {
-            const text = vector.text;
+        vectors.map(async (vector) => {
+            const text = vector.metadata.text;
             const embed = await embedOpenaiQuery(text);
-
-            const upsertRequest = {
+            const upsertRequest: VectorType = {
                 id: vector.id,
                 values: embed,
                 metadata: vector.metadata,
             };
-
             upsertRequests.push(upsertRequest);
         })
     );
 
+    const index = await returnIndex();
     const upsertRequest = {
         vectors: upsertRequests,
         namespace,
     };
-
-    const pinecone = await getPineconeClient();
-    const index = pinecone.Index(PINECONE_DEFAULT_INDEX_NAME);
-
     const upsertReponse = await index.upsert({ upsertRequest });
 
     return upsertReponse;
 }
 
 export async function deleteVectors(vectorIds: string[], namespace?: string): Promise<any> {
-    const pinecone = await getPineconeClient();
-    const index = pinecone.Index(PINECONE_DEFAULT_INDEX_NAME);
+    const index = await returnIndex();
     const deleteRequest = {
         ids: vectorIds,
         namespace,
@@ -62,8 +63,7 @@ export async function deleteVectors(vectorIds: string[], namespace?: string): Pr
 }
 
 export async function getVectors(vectorIds: string[], namespace?: string): Promise<FetchResponse> {
-    const pinecone = await getPineconeClient();
-    const index = pinecone.Index(PINECONE_DEFAULT_INDEX_NAME);
+    const index = await returnIndex();
     const fetchRequest = {
         ids: vectorIds,
         namespace,
