@@ -1,8 +1,9 @@
 import { PINECONE_DEFAULT_INDEX_NAME, PINECONE_DEFAULT_NAMESPACE } from '@/constants';
+import { VectorType } from '@/features/pinecone/vector/vectorType';
 import { IndexMeta } from '@pinecone-database/pinecone';
 import {
     DescribeIndexStatsResponse,
-    QueryResponse,
+    ScoredVector,
     VectorOperationsApi,
 } from '@pinecone-database/pinecone/dist/pinecone-generated-ts-fetch';
 
@@ -71,7 +72,7 @@ export async function describeIndex(): Promise<IndexMeta> {
     return response;
 }
 
-export async function queryIndex(vector: number[], namespace?: string): Promise<QueryResponse> {
+export async function queryIndex(vector: number[], namespace?: string): Promise<VectorType[]> {
     const pinecone = await getPineconeClient();
     const index = pinecone.Index(PINECONE_DEFAULT_INDEX_NAME);
 
@@ -87,5 +88,10 @@ export async function queryIndex(vector: number[], namespace?: string): Promise<
     };
     const queryResponse = await index.query({ queryRequest });
 
-    return queryResponse;
+    const matches: ScoredVector[] | undefined = queryResponse.matches;
+
+    if (matches === undefined) return [];
+
+    // We transform from their generic return to our return which we know because we enforced it when creating the index
+    return matches as unknown as VectorType[];
 }
