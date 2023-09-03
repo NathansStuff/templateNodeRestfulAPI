@@ -8,7 +8,9 @@ import { TryCatchMiddleware } from '../TryCatchMiddleware';
 describe('TryCatchMiddleware', () => {
     it('should handle CustomError and send a response with the correct status code and message', async () => {
         const customError = new CustomError(400, 'Custom Error Message');
-        const middlewareFn: jest.Mock = jest.fn().mockRejectedValue(customError);
+        const middlewareFn: jest.Mock = jest
+            .fn()
+            .mockRejectedValue(customError);
         const req = {} as Request;
         const res = {
             status: jest.fn().mockReturnThis(),
@@ -27,7 +29,9 @@ describe('TryCatchMiddleware', () => {
 
     it('should handle standard Error and send a 500 response with the correct message', async () => {
         const standardError = new Error('Standard Error Message');
-        const middlewareFn: jest.Mock = jest.fn().mockRejectedValue(standardError);
+        const middlewareFn: jest.Mock = jest
+            .fn()
+            .mockRejectedValue(standardError);
         const req = {} as Request;
         const res = {
             status: jest.fn().mockReturnThis(),

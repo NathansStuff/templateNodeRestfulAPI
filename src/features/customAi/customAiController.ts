@@ -19,7 +19,10 @@ export async function buildQueryTemplateHandler(
     res: Response<string>
 ): Promise<void> {
     const safeQuestion = z.string().nonempty().parse(req.body.question);
-    const safeMatchedText = z.array(z.string()).nonempty().parse(req.body.matchedText);
+    const safeMatchedText = z
+        .array(z.string())
+        .nonempty()
+        .parse(req.body.matchedText);
 
     const query = buildQueryTemplate(safeQuestion, safeMatchedText);
     res.status(200).json(query);

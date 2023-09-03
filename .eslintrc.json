@@ -4,7 +4,7 @@
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended"
   ],
-  "plugins": ["unused-imports", "simple-import-sort"],
+  "plugins": ["unused-imports", "simple-import-sort", "spellcheck"],
   "env": {
     "node": true,
      "jest": true
@@ -26,39 +26,316 @@
     "semi": "error",
     "no-undef": "error",
     "@typescript-eslint/explicit-function-return-type": "error",
-    "simple-import-sort/imports": "error"
+    "simple-import-sort/imports": [
+          "error",
+          {
+            "groups": [
+              // Packages `react` related packages come first.
+              ["^react", "^@?\\w"],
+              // Internal packages.
+              ["^(@|components)(/.*|$)"],
+              // Side effect imports.
+              ["^\\u0000"],
+              // Parent imports. Put `..` last.
+              ["^\\.\\.(?!/?$)", "^\\.\\./?$"],
+              // Other relative imports. Put same-folder imports and `.` last.
+              ["^\\./(?=.*/)(?!/?$)", "^\\.(?!/?$)", "^\\./?$"],
+              // Style imports.
+              ["^.+\\.?(css)$"]
+            ]
+          }
+        ],
+    "simple-import-sort/exports": "error",
+    "spellcheck/spell-checker": [
+      1,
+      {
+        "comments": true,
+        "strings": true,
+        "identifiers": true,
+        "templates": true,
+        "lang": "en_US",
+        "skipWords": [
+          // own names
+          "utils",
+          "autoprefixer",
+          "eslint",
+          "github",
+          "uglify",
+          "webdriver",
+
+          // font
+          "latin",
+
+          // components
+          "Dropdown",
+          "Checkbox",
+
+          // tailwindcss
+          "semibold",
+          "7xl",
+          "6xl",
+          "5xl",
+          "4xl",
+          "3xl",
+          "2xl",
+
+          // names provided by external source code dependencies or standard library
+          "clsx", // module => clsx
+          "cva", // module => class-variance-authority
+          "stringify", // in JSON.stringify
+          "cwd", // in node api
+          "pinecone", // module => pinecone
+          "openai", // module => openai
+          "zod", // module => zod
+          "tiktoken", // module => tiktoken,
+          "langchain", // module => langchain,
+          "loc", // from langchain
+          "upserted", // from langchain
+
+
+          // various
+          "Na", // in NaN - NaN is mishandled by the plugin
+          "todos",
+          "workcover",
+          "offence", // US spelling
+          "infos",
+
+          // openai
+           "gpt3",
+           "gpt",
+           "embeddings",
+           "ada",
+           "babbage",
+           "davinci",
+           "textcompletion",
+           "chatcompletion",
+           "splitter",
+
+          //file extensions
+          "css",
+          "html",
+          "html",
+          "js",
+          "jsonp",
+          "md",
+          "png",
+          "scss",
+          "tpl",
+
+          // programming gibberish
+          "dotenv",
+          "enums",
+          "timestamps",
+          "upsert",
+          "req",
+          "enum",
+          "namespace",
+          "href",
+          "addon",
+          "addons",
+          "arg",
+          "args",
+          "asc",
+          "async",
+          "atan",
+          "attr",
+          "attrs",
+          "auth",
+          "autocomplete",
+          "autoincrement",
+          "basename",
+          "bcrypt",
+          "broadcasted",
+          "chainable",
+          "cli",
+          "clickability",
+          "concat",
+          "conf",
+          "config",
+          "configs",
+          "const",
+          "ctrl",
+          "customizer",
+          "deregister",
+          "deregistered",
+          "deregistering",
+          "deregistrator",
+          "deregistrators",
+          "desc",
+          "deserialization",
+          "deserialize",
+          "deserialized",
+          "deserializes",
+          "dest",
+          "destructuring",
+          "dev",
+          "dir",
+          "dirname",
+          "dragend",
+          "dragstart",
+          "el",
+          "elem",
+          "elems",
+          "env",
+          "envs",
+          "falsy",
+          "filename",
+          "fn",
+          "fns",
+          "formatters",
+          "fulfillable",
+          "fullscreen",
+          "getter",
+          "hostname",
+          "http",
+          "https",
+          "img",
+          "init",
+          "initializer",
+          "injectable",
+          "instantiation",
+          "iterable",
+          "iteree",
+          "laquo",
+          "lib",
+          "libs",
+          "lifecycle",
+          "linter",
+          "linters",
+          "metadata",
+          "minified",
+          "mixin",
+          "mixins",
+          "multiselect",
+          "nav",
+          "noop",
+          "param",
+          "params",
+          "parsers",
+          "polyfill",
+          "polyfilled",
+          "polyfills",
+          "popup",
+          "prefetch",
+          "preload",
+          "preloaded",
+          "preprocess",
+          "preprocessor",
+          "preprocessors",
+          "preselected",
+          "programmatically",
+          "proto",
+          "px",
+          "raquo",
+          "reconfiguring",
+          "refetch",
+          "refetching",
+          "ret",
+          "rethrows",
+          "rgba",
+          "runtime",
+          "sanitization",
+          "serialize",
+          "serializer",
+          "sha",
+          "shorthands",
+          "sourcemap",
+          "sourcemaps",
+          "sqrt",
+          "src",
+          "stacktrace",
+          "subdirectories",
+          "subdirectory",
+          "subunit",
+          "subunits",
+          "superset",
+          "thanables",
+          "thenable",
+          "timeline",
+          "timestamp",
+          "tmp",
+          "todo",
+          "truthy",
+          "typedef",
+          "ui",
+          "uncomment",
+          "unfulfillable",
+          "ungroup",
+          "ungrouped",
+          "unhandled",
+          "uniq",
+          "unwatch",
+          "util",
+          "utils",
+          "uuid",
+          "validator",
+          "viewport",
+          "webserver",
+          "whitelist",
+          "whitelisted",
+          "www",
+          "zindex",
+          "api",
+          "backend",
+          "iso",
+          "utc",
+
+          // Lorem ipsum 1st sentence
+          "Lorem",
+          "ipsum",
+          "dolor",
+          "sit",
+          "amet",
+          "consectetur",
+          "adipiscing",
+          "elit",
+
+          // Moment.js date format strings
+          "YYYY",
+          "YY",
+          "Y",
+          "MM",
+          "MMM",
+          "MMMM",
+          "D",
+          "DD",
+          "Do",
+          "DDD",
+          "DDDD",
+          "HH",
+          "MM",
+          "gg",
+          "gggg",
+          "ww",
+          "ss",
+          "ss",
+          "zz",
+
+          // tests
+          "foo",
+          "bar",
+          "baz",
+          "quux"
+        ],
+        "skipIfMatch": [
+          // urls
+          "http://[^s]*",
+          // file paths
+          ".*\\.jpg$",
+          "\\.jpg\\)$",
+          // hex colors
+          "^#[0-9a-f]{3,6}$"
+        ],
+        "skipWordIfMatch": ["^foobar.*$"],
+        "minLength": 3
+      }
+    ]
   },
     "overrides": [
     {
       "files": ["*.test.ts"],
       "rules": {
         "@typescript-eslint/no-var-requires": "off"
-      }
-    },
-     {
-      "files": ["**/*.js", "**/*.ts", "**/*.tsx"],
-      "rules": {
-        "simple-import-sort/imports": [
-          "error",
-          {
-            "groups": [
-              // `react` first, `next` second, then packages starting with a character
-              ["^react$", "^next", "^[a-z]"],
-              // Packages starting with `@`
-              ["^@"],
-              // Packages starting with `~`
-              ["^~"],
-              // Imports starting with `../`
-              ["^\\.\\.(?!/?$)", "^\\.\\./?$"],
-              // Imports starting with `./`
-              ["^\\./(?=.*/)(?!/?$)", "^\\.(?!/?$)", "^\\./?$"],
-              // Relative imports
-              ["^.+\\.s?css$"],
-              // Side effect imports
-              ["^\\u0000"]
-            ]
-          }
-        ]
       }
     }
   ],
@@ -67,6 +344,7 @@
     "out/",
     "coverage/",
     "dist/",
-    "public/"
+    "public/",
+    "scripts/"
   ]
 }

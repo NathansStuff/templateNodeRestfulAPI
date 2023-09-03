@@ -12,7 +12,10 @@ describe('BadRequestError', () => {
     });
 
     it('should append additional error message if provided', () => {
-        const error = new BadRequestError('Access Denied', 'Additional error details');
+        const error = new BadRequestError(
+            'Access Denied',
+            'Additional error details'
+        );
         expect(error.message).toBe('Access Denied: Additional error details');
     });
 });

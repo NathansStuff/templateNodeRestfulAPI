@@ -1,7 +1,7 @@
 import express from 'express';
 
 import PineconeIndexRouter from './index/pineconeIndexRouter';
-import PineconeVectorRouter from './vector/pineconeVectorRouter';
+import PineconeVectorRouter from './vector/vectorRouter';
 
 const pineconeRouter = express.Router();
 

@@ -13,7 +13,10 @@ describe('PORT configuration', () => {
         });
 
         expect(PORT).toEqual('3000');
-        expect(assert.ok).toHaveBeenCalledWith('3000', 'PORT is not defined in .env file');
+        expect(assert.ok).toHaveBeenCalledWith(
+            '3000',
+            'PORT is not defined in .env file'
+        );
     });
 
     it('should throw an error when PORT is not defined in .env', () => {

@@ -22,7 +22,10 @@ export async function createInfo(InfoData: Info): Promise<InfoWithId> {
 }
 
 // Update Info by ID
-export async function updateInfoById(id: string, updatedData: Partial<Info>): Promise<InfoWithId | null> {
+export async function updateInfoById(
+    id: string,
+    updatedData: Partial<Info>
+): Promise<InfoWithId | null> {
     await mongoDBConnect();
     return await InfoModel.findByIdAndUpdate(id, updatedData, { new: true });
 }

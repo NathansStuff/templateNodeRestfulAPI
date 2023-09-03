@@ -7,13 +7,19 @@ import {
     embedAndUpsertVectorsHandler,
     getVectorsHandler,
     upsertVectorHandler,
-} from './pineconeVectorController';
+} from './vectorController';
 
 const PineconeVectorRouter = express.Router();
 
 PineconeVectorRouter.put('/', TryCatchMiddleware(upsertVectorHandler));
-PineconeVectorRouter.post('/', TryCatchMiddleware(embedAndUpsertVectorsHandler));
+PineconeVectorRouter.post(
+    '/',
+    TryCatchMiddleware(embedAndUpsertVectorsHandler)
+);
 PineconeVectorRouter.post('/ids', TryCatchMiddleware(getVectorsHandler));
-PineconeVectorRouter.post('/delete-ids', TryCatchMiddleware(deleteVectorsHandler));
+PineconeVectorRouter.post(
+    '/delete-ids',
+    TryCatchMiddleware(deleteVectorsHandler)
+);
 
 export default PineconeVectorRouter;

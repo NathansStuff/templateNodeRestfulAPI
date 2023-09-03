@@ -1,5 +1,3 @@
-import { PINECONE_DEFAULT_INDEX_NAME, PINECONE_DEFAULT_NAMESPACE } from '@/constants';
-import { VectorType } from '@/features/pinecone/vector/vectorType';
 import { IndexMeta } from '@pinecone-database/pinecone';
 import {
     DescribeIndexStatsResponse,
@@ -7,14 +5,23 @@ import {
     VectorOperationsApi,
 } from '@pinecone-database/pinecone/dist/pinecone-generated-ts-fetch';
 
-import { getPineconeClient } from '../pineconeConnect';
+import {
+    PINECONE_DEFAULT_INDEX_NAME,
+    PINECONE_DEFAULT_NAMESPACE,
+} from '@/constants';
+import { VectorType } from '@/features/pinecone/vector/vectorType';
+
+import { getPineconeClient } from '../../../middleware/pineconeConnect';
 
 export async function getIndexes(): Promise<string[]> {
     const pinecone = await getPineconeClient();
     return await pinecone.listIndexes();
 }
 
-export async function createIndex(indexName: string, dimension: number): Promise<string> {
+export async function createIndex(
+    indexName: string,
+    dimension: number
+): Promise<string> {
     const existingIndexes = await getIndexes();
     if (existingIndexes.includes(indexName)) {
         return `Index ${indexName} already exists`;
@@ -72,7 +79,10 @@ export async function describeIndex(): Promise<IndexMeta> {
     return response;
 }
 
-export async function queryIndex(vector: number[], namespace?: string): Promise<VectorType[]> {
+export async function queryIndex(
+    vector: number[],
+    namespace?: string
+): Promise<VectorType[]> {
     const pinecone = await getPineconeClient();
     const index = pinecone.Index(PINECONE_DEFAULT_INDEX_NAME);
 

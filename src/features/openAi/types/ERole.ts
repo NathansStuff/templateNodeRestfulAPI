@@ -1,5 +1,5 @@
 export enum ERole {
-  SYSTEM = 'system',
-  USER = 'user',
-  ASSISTANT = 'assistant',
+    SYSTEM = 'system',
+    USER = 'user',
+    ASSISTANT = 'assistant',
 }

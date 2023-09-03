@@ -15,7 +15,11 @@ type Chunk = {
     };
 };
 
-export async function chunkData(text: string, chunkSize = 2000, chunkOverlap = 100): Promise<Chunk[]> {
+export async function chunkData(
+    text: string,
+    chunkSize = 2000,
+    chunkOverlap = 100
+): Promise<Chunk[]> {
     const splitter = new RecursiveCharacterTextSplitter({
         chunkSize,
         chunkOverlap,

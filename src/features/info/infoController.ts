@@ -3,11 +3,20 @@ import { Request, Response } from 'express';
 import { BadRequestError } from '@/exceptions/BadRequestError';
 import { ParamsWithId } from '@/types/ParamsWithId';
 
-import { createNewInfo, deleteInfo, getAllInfos, getInfoById, updateInfo } from './infoService';
+import {
+    createNewInfo,
+    deleteInfo,
+    getAllInfos,
+    getInfoById,
+    updateInfo,
+} from './infoService';
 import { Info, InfoWithId } from './infoType';
 
 // Get all Infos
-export async function getAllInfosHandler(req: Request, res: Response<InfoWithId[]>): Promise<void> {
+export async function getAllInfosHandler(
+    req: Request,
+    res: Response<InfoWithId[]>
+): Promise<void> {
     const Infos = await getAllInfos();
     res.status(200).json(Infos);
 }

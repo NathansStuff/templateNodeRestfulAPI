@@ -14,7 +14,10 @@ import {
 import { Document, DocumentWithId, DocumentWithInfoIds } from './documentType';
 
 // Get all Documents
-export async function getAllDocumentsHandler(req: Request, res: Response<DocumentWithId[]>): Promise<void> {
+export async function getAllDocumentsHandler(
+    req: Request,
+    res: Response<DocumentWithId[]>
+): Promise<void> {
     const Documents = await getAllDocuments();
     res.status(200).json(Documents);
 }

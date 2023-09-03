@@ -1,24 +1,30 @@
-import { PINECONE_DEFAULT_INDEX_NAME } from '@/constants';
-import { embedOpenaiQuery } from '@/features/langchain/langchainService';
-import { returnIndex } from '@/features/pinecone/index/pineconeIndexService';
 import {
     FetchResponse,
     UpsertRequest,
     UpsertResponse,
 } from '@pinecone-database/pinecone/dist/pinecone-generated-ts-fetch';
 
-import { getPineconeClient } from '../pineconeConnect';
+import { PINECONE_DEFAULT_INDEX_NAME } from '@/constants';
+import { embedOpenaiQuery } from '@/features/langchain/langchainService';
+import { returnIndex } from '@/features/pinecone/index/pineconeIndexService';
+import { getPineconeClient } from '@/middleware/pineconeConnect';
 
-import { NamespaceType, VectorEmbedRequestType, VectorType } from './vectorType';
+import {
+    NamespaceType,
+    VectorEmbedRequestType,
+    VectorType,
+} from './vectorType';
 
 // note: cannot create vector
-export async function upsertVector(upsertRequest: UpsertRequest): Promise<UpsertResponse> {
+export async function upsertVector(
+    upsertRequest: UpsertRequest
+): Promise<UpsertResponse> {
     const pinecone = await getPineconeClient();
     const index = pinecone.Index(PINECONE_DEFAULT_INDEX_NAME);
 
-    const upsertReponse = await index.upsert({ upsertRequest });
+    const upsertResponse = await index.upsert({ upsertRequest });
 
-    return upsertReponse;
+    return upsertResponse;
 }
 
 export async function embedAndUpsertVectors(
@@ -29,11 +35,16 @@ export async function embedAndUpsertVectors(
     // Get embeddings for each vector
     await Promise.all(
         vectors.map(async (vector) => {
-            const text = vector.metadata.text;
+            const text = vector.metadata.embeddedText;
             const embed = await embedOpenaiQuery(text);
             const upsertRequest: VectorType = {
                 id: vector.id,
+                friendlyTitle: vector.friendlyTitle,
+                sourceLink: vector.sourceLink,
+                aiText: vector.aiText,
+                tokens: vector.tokens,
                 values: embed,
+                componentType: vector.componentType,
                 metadata: vector.metadata,
             };
             upsertRequests.push(upsertRequest);
@@ -45,12 +56,15 @@ export async function embedAndUpsertVectors(
         vectors: upsertRequests,
         namespace,
     };
-    const upsertReponse = await index.upsert({ upsertRequest });
+    const upsertResponse = await index.upsert({ upsertRequest });
 
-    return upsertReponse;
+    return upsertResponse;
 }
 
-export async function deleteVectors(vectorIds: string[], namespace?: string): Promise<any> {
+export async function deleteVectors(
+    vectorIds: string[],
+    namespace?: string
+): Promise<object> {
     const index = await returnIndex();
     const deleteRequest = {
         ids: vectorIds,
@@ -62,7 +76,10 @@ export async function deleteVectors(vectorIds: string[], namespace?: string): Pr
     return deleteResponse;
 }
 
-export async function getVectors(vectorIds: string[], namespace?: string): Promise<FetchResponse> {
+export async function getVectors(
+    vectorIds: string[],
+    namespace?: string
+): Promise<FetchResponse> {
     const index = await returnIndex();
     const fetchRequest = {
         ids: vectorIds,

@@ -13,8 +13,8 @@ export async function mongoDBConnect(): Promise<Mongoose> {
         bufferCommands: true,
     };
 
-    const conn = await mongoose.connect(MONGO_URI, opts);
-    cachedConn = conn;
+    const connection = await mongoose.connect(MONGO_URI, opts);
+    cachedConn = connection;
 
-    return conn;
+    return connection;
 }

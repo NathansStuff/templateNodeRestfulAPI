@@ -12,7 +12,9 @@ import {
 
 const InfoRouter = express.Router();
 
-InfoRouter.route('/').get(TryCatchMiddleware(getAllInfosHandler)).post(TryCatchMiddleware(createInfoHandler));
+InfoRouter.route('/')
+    .get(TryCatchMiddleware(getAllInfosHandler))
+    .post(TryCatchMiddleware(createInfoHandler));
 InfoRouter.route('/:id')
     .get(TryCatchMiddleware(getInfoByIdHandler))
     .put(TryCatchMiddleware(updateInfoHandler))

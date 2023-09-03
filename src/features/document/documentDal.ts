@@ -10,21 +10,30 @@ export async function findAllDocuments(): Promise<DocumentWithId[]> {
 }
 
 // Get Document by ID
-export async function findDocumentById(id: string): Promise<DocumentWithId | null> {
+export async function findDocumentById(
+    id: string
+): Promise<DocumentWithId | null> {
     await mongoDBConnect();
     return await DocumentModel.findById(id);
 }
 
 // Create a new Document
-export async function createDocument(DocumentData: Document): Promise<DocumentWithId> {
+export async function createDocument(
+    DocumentData: Document
+): Promise<DocumentWithId> {
     await mongoDBConnect();
     return await DocumentModel.create(DocumentData);
 }
 
 // Update Document by ID
-export async function updateDocumentById(id: string, updatedData: Partial<Document>): Promise<DocumentWithId | null> {
+export async function updateDocumentById(
+    id: string,
+    updatedData: Partial<Document>
+): Promise<DocumentWithId | null> {
     await mongoDBConnect();
-    return await DocumentModel.findByIdAndUpdate(id, updatedData, { new: true });
+    return await DocumentModel.findByIdAndUpdate(id, updatedData, {
+        new: true,
+    });
 }
 
 // Delete Document by ID

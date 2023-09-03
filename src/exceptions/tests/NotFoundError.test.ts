@@ -12,7 +12,10 @@ describe('NotFoundError', () => {
     });
 
     it('should append additional error message if provided', () => {
-        const error = new NotFoundError('Access Denied', 'Additional error details');
+        const error = new NotFoundError(
+            'Access Denied',
+            'Additional error details'
+        );
         expect(error.message).toBe('Access Denied: Additional error details');
     });
 });

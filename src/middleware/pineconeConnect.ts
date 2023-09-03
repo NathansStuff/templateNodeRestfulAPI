@@ -1,5 +1,6 @@
-import { PINECONE_API_KEY, PINECONE_ENV } from '@/constants';
 import { PineconeClient } from '@pinecone-database/pinecone';
+
+import { PINECONE_API_KEY, PINECONE_ENV } from '@/constants';
 
 let pineconeInstance: PineconeClient | null = null;
 

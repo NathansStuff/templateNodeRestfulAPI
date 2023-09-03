@@ -1,6 +1,8 @@
 import { BadRequestError } from '@/exceptions/BadRequestError';
 
-export function getMonthsSinceDate(dateString: string | undefined): number | undefined {
+export function getMonthsSinceDate(
+    dateString: string | undefined
+): number | undefined {
     if (dateString === undefined) return undefined;
 
     const currentDate = new Date();

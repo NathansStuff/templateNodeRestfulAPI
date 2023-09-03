@@ -15,7 +15,10 @@ const PineconeIndexRouter = express.Router();
 PineconeIndexRouter.get('/', TryCatchMiddleware(getIndexesHandler));
 PineconeIndexRouter.get('/:indexName', TryCatchMiddleware(getIndexHandler));
 PineconeIndexRouter.post('/:indexName', TryCatchMiddleware(queryIndexHandler));
-PineconeIndexRouter.delete('/:indexName', TryCatchMiddleware(deleteIndexHandler));
+PineconeIndexRouter.delete(
+    '/:indexName',
+    TryCatchMiddleware(deleteIndexHandler)
+);
 PineconeIndexRouter.post('/', TryCatchMiddleware(createIndexHandler));
 
 export default PineconeIndexRouter;

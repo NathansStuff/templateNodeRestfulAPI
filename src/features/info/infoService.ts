@@ -1,25 +1,31 @@
-import { embedOpenaiQuery } from '@/features/langchain/langchainService';
-import { deleteVectors, upsertVector } from '@/features/pinecone/vector/pineconeVectorService';
-import { UpsertRequest } from '@pinecone-database/pinecone';
+import {
+    deleteVectors,
+    embedAndUpsertVectors,
+} from '@/features/pinecone/vector/vectorService';
+import { VectorEmbedRequestType } from '@/features/pinecone/vector/vectorType';
 
-import { createInfo, deleteInfoById, findAllInfos, findInfoById, updateInfoById } from './infoDal';
+import {
+    createInfo,
+    deleteInfoById,
+    findAllInfos,
+    findInfoById,
+    updateInfoById,
+} from './infoDal';
 import { Info, InfoWithId } from './infoType';
 
 // Utility function to save info to Pinecone
-async function saveInfoToPinecone(info: Info): Promise<void> {
-    const embed = await embedOpenaiQuery(info.text);
-    const vector = {
-        id: info.id,
-        values: embed,
-        metadata: { ...info.metadata, text: info.text },
+async function saveInfoToPinecone(info: InfoWithId): Promise<void> {
+    const vector: VectorEmbedRequestType = {
+        id: info._id.toString(),
+        friendlyTitle: info.friendlyTitle,
+        sourceLink: info.sourceLink,
+        aiText: info.aiText,
+        tokens: info.tokens,
+        componentType: info.componentType,
+        metadata: info.metadata,
     };
 
-    const vectorRequest: UpsertRequest = {
-        vectors: [vector],
-        namespace: info.namespace,
-    };
-
-    const response = await upsertVector(vectorRequest);
+    const response = await embedAndUpsertVectors([vector], info.namespace);
     if (response.upsertedCount !== 1) {
         throw new Error('Error saving Info vector to Pinecone');
     }
@@ -39,21 +45,31 @@ export async function getInfoById(id: string): Promise<InfoWithId | null> {
 
 // Create Info
 export async function createNewInfo(Info: Info): Promise<InfoWithId> {
-    await saveInfoToPinecone(Info);
+    // Info has to be created to get an id which is used for the vector
+    const savedInfo = await createInfo(Info);
 
-    const savedInPinceoneInfo = {
+    await saveInfoToPinecone(savedInfo);
+
+    // Update Info to show it has been saved in Pinecone
+    const savedInPineconeInfo = {
         ...Info,
         savedInPinecone: true,
     };
 
-    const savedInfo = await createInfo(savedInPinceoneInfo);
-    if (savedInfo) return savedInfo;
+    const updatedInfo = await updateInfo(
+        savedInfo._id.toString(),
+        savedInPineconeInfo
+    );
+    if (updatedInfo) return updatedInfo;
 
     throw new Error('Error saving Info to Pinecone');
 }
 
 // Update Info
-export async function updateInfo(id: string, updatedData: Partial<Info>): Promise<InfoWithId | null> {
+export async function updateInfo(
+    id: string,
+    updatedData: Partial<InfoWithId>
+): Promise<InfoWithId | null> {
     const info = await updateInfoById(id, updatedData);
 
     if (info === null) return null;
@@ -67,7 +83,7 @@ export async function deleteInfo(id: string): Promise<void | null> {
     const info = await getInfoById(id);
     if (info === null) return null;
 
-    const vectorIds = [info.id];
+    const vectorIds = [info._id.toString()];
     await deleteVectors(vectorIds, info.namespace);
 
     const response = await deleteInfoById(id);

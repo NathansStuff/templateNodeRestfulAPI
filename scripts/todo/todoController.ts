@@ -8,8 +8,8 @@ import { Todo, TodoWithId } from './todoType';
 
 // Get all Todos
 export async function getAllTodosHandler(req: Request, res: Response<TodoWithId[]>): Promise<void> {
-    const Todos = await getAllTodos();
-    res.status(200).json(Todos);
+    const todos = await getAllTodos();
+    res.status(200).json(todos);
 }
 
 // Get Todo by id
