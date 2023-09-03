@@ -1,12 +1,6 @@
 import { Schema } from 'mongoose';
 
-import {
-    EComponentType,
-    ECountryCode,
-    EIndustry,
-    EInfoType,
-    EPromptTemplate,
-} from '@/types';
+import { EAiInfoTemplate, EComponentType, ECountryCode, EEmbedTemplate, EIndustry } from '@/types';
 
 import { DocumentWithId } from './documentType';
 
@@ -18,34 +12,61 @@ export const DocumentSchema = new Schema<DocumentWithId>(
         // Default values for new info
         defaultFriendlyTitle: { type: String, required: true },
         defaultSourceLink: { type: String, required: true },
-        defaultComponentType: {
-            type: String,
-            required: true,
-            enum: Object.values(EComponentType),
-        },
+        defaultComponentType: { type: String, required: true },
         defaultMetadata: {
-            countryCode: {
-                type: String,
-                required: true,
-                enum: Object.values(ECountryCode),
+            general: {
+                countryCode: {
+                    type: String,
+                    required: true,
+                    enum: ECountryCode,
+                },
+                industry: {
+                    type: String,
+                    required: true,
+                    enum: EIndustry,
+                },
+                sourceLink: {
+                    type: String,
+                    required: true,
+                },
+                sourceName: {
+                    type: String,
+                    required: true,
+                },
+                title: {
+                    type: String,
+                    required: true,
+                },
             },
-            industry: {
-                type: String,
-                required: true,
-                enum: Object.values(EIndustry),
+            ai: {
+                aiTemplate: {
+                    type: String,
+                    required: true,
+                    enum: EAiInfoTemplate,
+                },
             },
-            promptTemplate: {
-                type: String,
-                required: true,
-                enum: Object.values(EPromptTemplate),
+            embedded: {
+                embeddedTemplate: {
+                    type: String,
+                    required: true,
+                    enum: EEmbedTemplate,
+                },
             },
-            infoType: {
-                type: String,
-                required: true,
-                enum: Object.values(EInfoType),
+            ui: {
+                uiTitle: {
+                    type: String,
+                    required: true,
+                },
+                uiText: {
+                    type: String,
+                    required: true,
+                },
+                componentType: {
+                    type: String,
+                    required: true,
+                    enum: EComponentType,
+                },
             },
-            sourceName: { type: String, required: true },
-            title: { type: String, required: true },
         },
 
         defaultNamespace: { type: String, required: true },
