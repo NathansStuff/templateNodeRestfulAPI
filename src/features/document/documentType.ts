@@ -11,7 +11,6 @@ export const Document = z.object({
     // Default values for new info
     defaultFriendlyTitle: z.string(),
     defaultSourceLink: z.string(),
-    defaultComponentType: z.nativeEnum(EComponentType),
     defaultMetadata: z.object({
         general: z.object({
             countryCode: z.nativeEnum(ECountryCode),

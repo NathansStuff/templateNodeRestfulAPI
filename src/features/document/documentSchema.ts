@@ -12,7 +12,6 @@ export const DocumentSchema = new Schema<DocumentWithId>(
         // Default values for new info
         defaultFriendlyTitle: { type: String, required: true },
         defaultSourceLink: { type: String, required: true },
-        defaultComponentType: { type: String, required: true },
         defaultMetadata: {
             general: {
                 countryCode: {
