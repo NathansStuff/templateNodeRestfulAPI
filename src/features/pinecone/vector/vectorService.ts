@@ -35,17 +35,11 @@ export async function embedAndUpsertVectors(
     // Get embeddings for each vector
     await Promise.all(
         vectors.map(async (vector) => {
-            const text = vector.metadata.embeddedText;
+            const text = vector.metadata.embedded.embeddedText;
             const embed = await embedOpenaiQuery(text);
             const upsertRequest: VectorType = {
-                id: vector.id,
-                friendlyTitle: vector.friendlyTitle,
-                sourceLink: vector.sourceLink,
-                aiText: vector.aiText,
-                tokens: vector.tokens,
+                ...vector,
                 values: embed,
-                componentType: vector.componentType,
-                metadata: vector.metadata,
             };
             upsertRequests.push(upsertRequest);
         })

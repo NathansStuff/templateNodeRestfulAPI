@@ -1,35 +1,11 @@
-import {
-    deleteVectors,
-    embedAndUpsertVectors,
-} from '@/features/pinecone/vector/vectorService';
+import { deleteVectors, embedAndUpsertVectors } from '@/features/pinecone/vector/vectorService';
 import { VectorEmbedRequestType } from '@/features/pinecone/vector/vectorType';
+import { getTokenCount } from '@/features/tiktoken/tiktokenService';
+import { EAiInfoTemplate, EEmbedTemplate } from '@/types';
+import { EModel } from '@/types/enums/EModel';
 
-import {
-    createInfo,
-    deleteInfoById,
-    findAllInfos,
-    findInfoById,
-    updateInfoById,
-} from './infoDal';
-import { Info, InfoWithId } from './infoType';
-
-// Utility function to save info to Pinecone
-async function saveInfoToPinecone(info: InfoWithId): Promise<void> {
-    const vector: VectorEmbedRequestType = {
-        id: info._id.toString(),
-        friendlyTitle: info.friendlyTitle,
-        sourceLink: info.sourceLink,
-        aiText: info.aiText,
-        tokens: info.tokens,
-        componentType: info.componentType,
-        metadata: info.metadata,
-    };
-
-    const response = await embedAndUpsertVectors([vector], info.namespace);
-    if (response.upsertedCount !== 1) {
-        throw new Error('Error saving Info vector to Pinecone');
-    }
-}
+import { createInfo, deleteInfoById, findAllInfos, findInfoById, updateInfoById } from './infoDal';
+import { Info, InfoRequest, InfoWithId } from './infoType';
 
 // Get all Infos
 export async function getAllInfos(): Promise<InfoWithId[]> {
@@ -44,32 +20,20 @@ export async function getInfoById(id: string): Promise<InfoWithId | null> {
 }
 
 // Create Info
-export async function createNewInfo(Info: Info): Promise<InfoWithId> {
-    // Info has to be created to get an id which is used for the vector
-    const savedInfo = await createInfo(Info);
+export async function createNewInfo(infoRequest: InfoRequest): Promise<InfoWithId> {
+    const infoObject = buildInfoObject(infoRequest);
 
+    // Create and save the Info, then update its savedInPinecone property
+    const savedInfo = await createInfo(infoObject);
     await saveInfoToPinecone(savedInfo);
+    const updatedInfo = await updateInfoWithPineconeStatus(savedInfo);
 
-    // Update Info to show it has been saved in Pinecone
-    const savedInPineconeInfo = {
-        ...Info,
-        savedInPinecone: true,
-    };
-
-    const updatedInfo = await updateInfo(
-        savedInfo._id.toString(),
-        savedInPineconeInfo
-    );
     if (updatedInfo) return updatedInfo;
-
     throw new Error('Error saving Info to Pinecone');
 }
 
 // Update Info
-export async function updateInfo(
-    id: string,
-    updatedData: Partial<InfoWithId>
-): Promise<InfoWithId | null> {
+export async function updateInfo(id: string, updatedData: Partial<InfoWithId>): Promise<InfoWithId | null> {
     const info = await updateInfoById(id, updatedData);
 
     if (info === null) return null;
@@ -88,4 +52,64 @@ export async function deleteInfo(id: string): Promise<void | null> {
 
     const response = await deleteInfoById(id);
     return response;
+}
+
+function buildInfoObject(infoRequest: InfoRequest): Info {
+    const aiText = buildAiText(infoRequest.chunkedText, infoRequest.metadata.ai.aiTemplate);
+    const aiTokens = getTokenCount(aiText, EModel.GPT35TURBO0613);
+    const embeddedText = buildEmbeddedText(infoRequest.chunkedText, infoRequest.metadata.embedded.embeddedTemplate);
+
+    return {
+        ...infoRequest,
+        metadata: {
+            ...infoRequest.metadata,
+            ai: {
+                ...infoRequest.metadata.ai,
+                aiTokens,
+                aiText,
+            },
+            embedded: {
+                ...infoRequest.metadata.embedded,
+                embeddedText,
+            },
+        },
+        savedInPinecone: false,
+    };
+}
+
+async function updateInfoWithPineconeStatus(savedInfo: InfoWithId): Promise<InfoWithId | null> {
+    const savedInPineconeInfo = {
+        ...savedInfo,
+        savedInPinecone: true,
+    };
+
+    return await updateInfo(savedInfo._id.toString(), savedInPineconeInfo);
+}
+
+async function saveInfoToPinecone(info: InfoWithId): Promise<void> {
+    const vector: VectorEmbedRequestType = {
+        ...info,
+        id: info._id.toString(),
+    };
+
+    const response = await embedAndUpsertVectors([vector], info.namespace);
+    if (response.upsertedCount !== 1) {
+        throw new Error('Error saving Info vector to Pinecone');
+    }
+}
+
+function buildAiText(text: string, aiTemplate: EAiInfoTemplate): string {
+    // todo: based on aiTemplate, return different template
+    const templateString = 'You are a robot. Here is the user question: {{QUESTION}}';
+    const formattedTemplate = templateString.replace('{{QUESTION}}', text);
+    console.log('todo: ', aiTemplate);
+    return formattedTemplate;
+}
+
+function buildEmbeddedText(text: string, embeddedTemplate: EEmbedTemplate): string {
+    // todo: based on embeddedTemplate, return different template
+    const templateString = 'You are a robot. Here is the user question: QUESTION';
+    const formattedTemplate = templateString.replace('{{QUESTION}}', text);
+    console.log('todo: ', embeddedTemplate);
+    return formattedTemplate;
 }
