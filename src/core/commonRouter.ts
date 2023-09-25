@@ -13,9 +13,9 @@ if (process.env.NODE_ENV === 'test') {
     });
 }
 
-// Middleware for handling not found routes
-commonRouter.use((req, res) => {
-    res.status(404).json({ message: 'Route Not Found' });
-});
+// // Middleware for handling not found routes
+// commonRouter.use((req, res) => {
+//     res.status(404).json({ message: 'Route Not Found' });
+// });
 
 export { commonRouter };

@@ -62,6 +62,11 @@
           "github",
           "uglify",
           "webdriver",
+          "Equifax",
+          "Gst",
+          "veda",
+          "axios",
+          "authorisation", // US spelling
 
           // font
           "latin",
@@ -91,7 +96,6 @@
           "langchain", // module => langchain,
           "loc", // from langchain
           "upserted", // from langchain
-
 
           // various
           "Na", // in NaN - NaN is mishandled by the plugin

@@ -1,0 +1,5 @@
+export enum EResidencyStatus {
+    AUSTRALIAN_CITIZEN = 'CITIZEN',
+    PERMANENT_RESIDENT = 'PERMANENT_RESIDENT',
+    VISA_HOLDER = 'VISA_HOLDER',
+}

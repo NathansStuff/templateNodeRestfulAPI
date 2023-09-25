@@ -1,0 +1,32 @@
+export interface ILender {
+    lender: string;
+    displayName?: string;
+    lenderId?: number;
+    baseRate?: number;
+    applicationFee?: number;
+    lenderEstablishmentFee?: number;
+    otherFee?: number;
+    originationFee?: number;
+    commissionPercentage?: number;
+    totalMonthlyRepaymentValue?: number;
+    financeTotal?: number;
+    comparisonRate?: number;
+    advertisedRate?: number;
+    totalMonthlyRepayment?: number;
+    totalForthrightlyRepayment?: number;
+    totalWeeklyRepayment?: number;
+    totalRepayment?: number;
+    totalInterestPaid?: number;
+    monthlyFee?: number;
+    fixedBreakFee?: number;
+    maxVariableBreakFee?: number;
+    turnaroundTimeInDays?: number;
+    riskGrade?: string;
+    information?: string;
+    supportingDocuments?: { [code: string]: string };
+    hasAssetTypeNafLimit?: string;
+    totalAbnRegistrationPeriodMonth?: string;
+    totalGstRegistrationPeriodInMonth?: string;
+    commissionAmount?: number;
+    balloonAmount?: number;
+}
